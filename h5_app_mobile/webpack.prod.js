@@ -13,17 +13,18 @@ module.exports = {
     },
     output: {
         filename: 'js/[name][chunkhash].js',
-        path: path.resolve(__dirname, './build'),
+        path: path.resolve(__dirname, '../h5_build/build'),
     },
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
+                include: SOURCE_DIR,
                 use: [
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: [['env', { module: false }], 'stage-0', 'react'],
+                            presets: [['env', {module: false}], 'stage-0', 'react'],
                             plugins: [
                                 'transform-decorators-legacy', //注解支持
                                 [
@@ -38,9 +39,9 @@ module.exports = {
                                 [
                                     'import', //antd引入
                                     {
-                                        libraryName: 'antd',
+                                        libraryName: 'antd-mobile',
                                         libraryDirectory: 'es',
-                                        style: 'css' // `style: true` 会加载 less 文件
+                                        style: true // `style: true` 会加载 less 文件
                                     }
                                 ]
                             ]
@@ -52,8 +53,8 @@ module.exports = {
                 test: /\.less$/,
                 use: [
                     'style-loader',
-                    { loader: 'css-loader', options: { importLoaders: 1 } },
-                    'less-loader'
+                    {loader: 'css-loader', options: {importLoaders: 1}},
+                    {loader: 'less-loader', options: {javascriptEnabled: true}}
                 ]
             },
             {
@@ -71,7 +72,7 @@ module.exports = {
                     {
                         loader: "postcss-loader",
                         options: {           // 如果没有options这个选项将会报错 No PostCSS Config found
-                            plugins: (loader) => [
+                            plugins: () => [
                                 require('autoprefixer')(), //CSS浏览器兼容
                             ]
                         }
@@ -79,33 +80,20 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|jpeg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192
-                        }
-                    }
-                ]
+                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|ico)$/,
+                use: ['file-loader?limit=1000&name=assets/images/[md5:hash:base64:10].[ext]']
             }
         ]
     },
     plugins: [
         new CleanWebpackPlugin(
-            [path.resolve(__dirname, './build')], //匹配删除的文件
+            [path.resolve(__dirname, '../h5_build/build')], //匹配删除的文件
             {
                 root: __dirname, //根目录
                 verbose: true, //开启在控制台输出信息
                 dry: false //启用删除文件
             }
         ),
-        //  该方法已经移除
-        // new webpack.optimize.CommonsChunkPlugin({
-        // 	name: 'vendor',
-        // 	minChunks: ({ resource }) =>
-        // 		resource && resource.indexOf('node_modules') >= 0 && resource.match(/\.js$/)
-        // }),
         new HtmlPlugin({
             chunks: 'main',
             template: path.join(SOURCE_DIR, '/html/index.html'),

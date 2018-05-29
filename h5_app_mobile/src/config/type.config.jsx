@@ -1,4 +1,4 @@
-export const API_URL = `http://localhost:3005`;
+export const API_URL = `http://192.168.3.2:3005`;
 
 /** Reducer **/
 export const REDUCER_ROUTE_KEY = 'REDUCER_ROUTE_KEY';
