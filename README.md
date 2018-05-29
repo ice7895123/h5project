@@ -3,9 +3,9 @@
 
 #### 安装运行
 
->1. h5_app_mobile,前端html页面，React+webpack. <br/>
+>1. h5_app_mobile,前端html页面，React+webpack+redux+axios+es6. <br/>
     npm install / yarn install 初始化，npm start / yarn start 启动代码，访问地址localhost:8080
->2. h5_api,服务端接口，使用nodejs+express+mongoose，需要安装mongodb.<br/>
+>2. h5_api,服务端接口，使用nodejs+express+mongoose+es6，需要安装mongodb.<br/>
     npm install / yarn install 初始化，npm start / yarn start 启动代码
 
 #### 项目部署
