@@ -1,0 +1,26 @@
+
+import { createStore, applyMiddleware, compose } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
+import createHistory from 'history/createMemoryHistory';
+import { routerMiddleware } from 'react-router-redux';
+
+//引入middleware
+import { promiseMiddleware } from '../middleware';
+import rootReducer from '../reducers';
+import ReduxPersistConfig from '../config/reduxPersist.config';
+
+const history = createHistory();
+const middleware = routerMiddleware(history);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const composeEnhancerWare = ReduxPersistConfig.active ?
+    composeEnhancers(applyMiddleware(promiseMiddleware, middleware), autoRehydrate()) :
+    composeEnhancers(applyMiddleware(promiseMiddleware, middleware));
+
+const store = createStore(rootReducer, {}, composeEnhancerWare);
+
+if (ReduxPersistConfig.active) {z
+    persistStore(store, ReduxPersistConfig.storeConfig);
+}
+
+export default store;

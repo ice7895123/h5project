@@ -1,0 +1,12 @@
+body {
+  height: 100vh;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+input {
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+/*# sourceMappingURL=app.css.map */
